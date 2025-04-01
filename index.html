@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> X Times Message Printer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8d7x1z5l5e5c5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+     <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        textarea, input, button {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input[type="number"] {
+            max-width: 100px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .btn-group button {
+            flex: 1;
+        }
+
+        #output {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--success);
+            white-space: pre-line;
+        }
+
+        .btn-print {
+            background-color: #2a9d8f;
+        }
+
+        .btn-print:hover {
+            background-color: #21867a;
+        }
+
+        .btn-clear {
+            background-color: var(--danger);
+        }
+
+        .btn-clear:hover {
+            background-color: #d11149;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #output, #output * {
+                visibility: visible;
+            }
+            #output {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                padding: 20px;
+                font-size: 16pt;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>X Times Message Printer</h1>
+        
+        <div class="input-group">
+            <label for="message">Enter Your Message:</label>
+            <textarea id="message" placeholder="Type your message here..."></textarea>
+        </div>
+        
+        <div class="input-group">
+            <label for="count">Repeat Times:</label>
+            <input type="number" id="count" min="1" max="100" value="5">
+        </div>
+        
+        <div class="btn-group">
+            <button onclick="generateMessage()">Generate Message</button>
+            
+            <button class="btn-clear" onclick="clearAll()">Clear All</button>
+        </div>
+        
+        <div id="output">Your generated messages will appear here...</div>
+    </div>
+
+    <script>
+        function generateMessage() {
+            const message = document.getElementById('message').value.trim();
+            const count = parseInt(document.getElementById('count').value);
+            const output = document.getElementById('output');
+            const printBtn = document.getElementById('printBtn');
+            
+            if (!message) {
+                alert("Please enter a message first!");
+                return;
+            }
+            
+            if (isNaN(count) || count < 1) {
+                alert("Please enter a valid number (1-100)!");
+                return;
+            }
+            
+            let result = "";
+            for (let i = 0; i < count; i++) {
+                result += `${message}\n`;
+            }
+            
+            output.textContent = result;
+            printBtn.disabled = false;
+        }
+        
+        function clearAll() {
+            document.getElementById('message').value = "";
+            document.getElementById('count').value = "5";
+            document.getElementById('output').textContent = "Your generated messages will appear here...";
+           
+        }
+    </script>
+</body>
+</html>
